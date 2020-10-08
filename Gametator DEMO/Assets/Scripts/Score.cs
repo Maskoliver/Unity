@@ -22,7 +22,7 @@ public class Score : MonoBehaviour
     {
         totalEggs1.text = "Total Eggs : " + PlayerPrefs.GetInt("TotalEggs");
         totalEggs2.text = "Total Eggs : " + PlayerPrefs.GetInt("TotalEggs");
-        activeLevel.text = "Max Level : " + PlayerPrefs.GetString("LatestLevel");
+        activeLevel.text = "Max Level : " + PlayerPrefs.GetInt("LatestLevel");
         scoreText.text = "Eggs : " + score.ToString();
     }
 

@@ -31,7 +31,11 @@ public class LevelMenu : MonoBehaviour
 
     public void StartLevel()
     {
-        PlayerPrefs.SetString("LatestLevel", (SceneManager.GetActiveScene().buildIndex + 1).ToString());
+        if (PlayerPrefs.GetInt("LatestLevel") <= (SceneManager.GetActiveScene().buildIndex + 1))
+        {
+            PlayerPrefs.SetInt("LatestLevel", (SceneManager.GetActiveScene().buildIndex + 1));
+        }
+
         lineDrawer.setisMenuOpen(false);
         lineDrawer.setIsDrawed(false);
         menu.SetActive(false);
