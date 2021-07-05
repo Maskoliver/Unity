@@ -33,7 +33,7 @@ public class CameraController : MonoBehaviour {
 
         Vector3 cameraMoveDir = (cameraFollowPosition - transform.position).normalized;
         float distance = Vector3.Distance(cameraFollowPosition, transform.position);
-        float cameraMoveSpeed = 2f;
+        float cameraMoveSpeed = 4f;
 
         if (distance > 0.1f)
         {
@@ -56,7 +56,7 @@ public class CameraController : MonoBehaviour {
         float cameraZoom = GetCameraZoomFunc();
 
         float cameraZoomDifference = cameraZoom - myCamera.orthographicSize;
-        float cameraZoomSpeed = 1f;
+        float cameraZoomSpeed = 2f;
 
         myCamera.orthographicSize += cameraZoomDifference * cameraZoomSpeed * Time.deltaTime;
 

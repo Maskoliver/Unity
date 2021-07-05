@@ -7,9 +7,11 @@ public class GameHandler : MonoBehaviour
     [SerializeField] private CameraController cameraFollow;
     private Vector3 cameraFollowPosition;
     private float zoom = 4f;
+   
     void Start()
     {
-        cameraFollow.Setup(() => cameraFollowPosition, () => zoom);    
+        cameraFollow.Setup(() => cameraFollowPosition, () => zoom);
+      
     }
 
    
@@ -33,11 +35,11 @@ public class GameHandler : MonoBehaviour
         {
             cameraFollowPosition.x -= moveAmount * Time.deltaTime;
         }
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetAxis("Mouse ScrollWheel") < 0f)
         {
             ZoomOut();
         }
-        if (Input.GetKeyDown(KeyCode.X))
+        if (Input.GetAxis("Mouse ScrollWheel") > 0f)
         {
             ZoomIn();
         }
@@ -47,11 +49,17 @@ public class GameHandler : MonoBehaviour
     private void ZoomIn()
     {
         zoom -= 1f;
-        if (zoom < 2f) zoom = 2f;
+        if (zoom < 3f) zoom = 3f;
     }
     private void ZoomOut()
     {
         zoom += 1f;
-        if (zoom > 10f) zoom = 10f;
+        if (zoom > 12f) zoom = 12f;
     }
+
+   
+
+    
+
+   
 }

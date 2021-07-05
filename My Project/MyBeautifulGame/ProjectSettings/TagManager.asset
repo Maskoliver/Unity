@@ -38,6 +38,18 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Sea
+    uniqueID: 2605505153
+    locked: 0
+  - name: Ground
+    uniqueID: 3993840001
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Props
+    uniqueID: 3051040697
+    locked: 0
+  - name: Colliders
+    uniqueID: 4130240311
     locked: 0

@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: a448f9f817916be4dace6d5a25aaa116
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - interactiveMap: {instanceID: 0}
+  - pathMap: {instanceID: 0}
+  - hoverTile: {fileID: 11400000, guid: 500f172fff53f0a4096c154456895f3b, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
