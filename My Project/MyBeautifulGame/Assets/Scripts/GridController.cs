@@ -29,6 +29,7 @@ public class GridController : MonoBehaviour
 
         grid = gameObject.GetComponent<Grid>();
         tileArray = GenerateArray(mapWidth, mapHeight,seed,scale,sealevel);
+        tileArray = addSand(tileArray);
         RenderMap(tileArray, Mapset, Tileset);
     
 
@@ -109,7 +110,40 @@ public class GridController : MonoBehaviour
         return map;
     }
 
-   
+    public static int[,] addSand(int[,] map)
+    {
+        for (int x = 0; x < map.GetUpperBound(0); x++)
+        {
+            for (int y = 0; y < map.GetUpperBound(1); y++)
+            {
+                if (x - 1 >= 0 && y-1 >= 0 && map[x,y] != 0)
+                {
+                    if (map[x + 1, y] == 0)
+                    {
+                        map[x , y] = 3;
+                    }
+                    else if (map[x - 1, y] == 0)
+                    {
+
+                        map[x , y] = 3;
+
+                    }
+                    else if (map[x, y + 1] == 0)
+                    {
+                        map[x, y ] = 3;
+                    }
+                    else if (map[x, y - 1] == 0)
+                    {
+
+                        map[x, y ] = 3;
+
+                    }
+                }
+            }
+        }
+        return map;
+    }
+
 
     public static void RenderMap(int[,] map, Tilemap[] Mapset,Tile[] Tileset)
     {
@@ -135,6 +169,11 @@ public class GridController : MonoBehaviour
                 {
                     mountains.SetTile(new Vector3Int(x, y, 0), (Tile)Tileset.GetValue(2));
                     ground.SetTile(new Vector3Int(x, y, 0), (Tile)Tileset.GetValue(0));
+                }
+                else if (map[x, y] == 3)
+                {
+                   
+                    ground.SetTile(new Vector3Int(x, y, 0), (Tile)Tileset.GetValue(4));
                 }
                 else
                 {
