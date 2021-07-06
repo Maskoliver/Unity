@@ -49,7 +49,7 @@ public class GameHandler : MonoBehaviour
     private void ZoomIn()
     {
         zoom -= 1f;
-        if (zoom < 3f) zoom = 3f;
+        if (zoom < 1f) zoom = 1f;
     }
     private void ZoomOut()
     {

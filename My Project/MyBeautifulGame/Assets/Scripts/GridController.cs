@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
-
+using UnityEngine.UI;
 public class GridController : MonoBehaviour
 {
     private Grid grid;
 
     [SerializeField] private Tilemap[] Mapset = null;
     [SerializeField] private Tile[] Tileset = null;
-  
+    [SerializeField] private AnimatedTile flowers = null;
+
+    private bool isStart = true;
 
     public int mapWidth = 20;
     public int mapHeight = 20;
@@ -18,15 +20,20 @@ public class GridController : MonoBehaviour
     public float scale = 10.0f;
     public float sealevel = 0.5f;
 
-    private int[,] tileArray = null;
+    public InputField widthField = null;
+    public InputField heightField = null;
+    public InputField seedField = null;
+    public InputField scaleField = null;
+    public InputField sealevelField = null;
 
+    private int[,] tileArray = null;
 
     private Vector3Int previousMousePos = new Vector3Int();
 
     // Start is called before the first frame update
     void Start()
     {
-
+       
         grid = gameObject.GetComponent<Grid>();
         GenerateMap();
 
@@ -34,9 +41,27 @@ public class GridController : MonoBehaviour
 
     public void GenerateMap()
     {
-        tileArray = GenerateArray(mapWidth, mapHeight, seed, scale, sealevel);
+        if (!isStart)
+        {
+            Debug.Log(int.Parse(widthField.text));
+            tileArray = GenerateArray(int.Parse(widthField.text) , int.Parse(heightField.text), int.Parse(seedField.text), float.Parse(scaleField.text), float.Parse(sealevelField.text));
+        }
+        else { 
+            tileArray = GenerateArray(mapWidth, mapHeight, seed, scale, sealevel);
+            isStart = false;
+        }
         tileArray = addSand(tileArray);
-        RenderMap(tileArray, Mapset, Tileset);
+        RenderMap(tileArray, Mapset, Tileset,flowers);
+    }
+
+    public void clearMap()
+    {
+        Tilemap sea = (Tilemap)Mapset.GetValue(1);
+        Tilemap ground = (Tilemap)Mapset.GetValue(0);
+        Tilemap mountains = (Tilemap)Mapset.GetValue(2);
+        ground.ClearAllTiles();
+        sea.ClearAllTiles();
+        mountains.ClearAllTiles();
     }
 
     void Update()
@@ -167,9 +192,9 @@ public class GridController : MonoBehaviour
         }
         return map;
     }
+  
 
-
-    public static void RenderMap(int[,] map, Tilemap[] Mapset,Tile[] Tileset)
+    public static void RenderMap(int[,] map, Tilemap[] Mapset,Tile[] Tileset,AnimatedTile flower)
     {
         //Clear the map (ensures we dont overlap)
         Tilemap sea = (Tilemap)Mapset.GetValue(1);
@@ -201,7 +226,7 @@ public class GridController : MonoBehaviour
                 }
                 else if (map[x, y] == 4)
                 {
-                    mountains.SetTile(new Vector3Int(x, y, 0), (Tile)Tileset.GetValue(5));
+                    mountains.SetTile(new Vector3Int(x, y, 0), flower);
                     ground.SetTile(new Vector3Int(x, y, 0), (Tile)Tileset.GetValue(0));
                 }
                 else
