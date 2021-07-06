@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -28,14 +28,17 @@ public class GridController : MonoBehaviour
     {
 
         grid = gameObject.GetComponent<Grid>();
-        tileArray = GenerateArray(mapWidth, mapHeight,seed,scale,sealevel);
-        tileArray = addSand(tileArray);
-        RenderMap(tileArray, Mapset, Tileset);
-    
+        GenerateMap();
 
     }
 
-    // Update is called once per frame
+    public void GenerateMap()
+    {
+        tileArray = GenerateArray(mapWidth, mapHeight, seed, scale, sealevel);
+        tileArray = addSand(tileArray);
+        RenderMap(tileArray, Mapset, Tileset);
+    }
+
     void Update()
     {
         // Mouse over -> highlight tile
@@ -89,15 +92,23 @@ public class GridController : MonoBehaviour
                 float sample = Mathf.PerlinNoise(xCoord, yCoord);
                 
              
-                if (sample > sealevel && sample <= sealevel+0.3f)
+                if (sample > sealevel && sample <= sealevel+0.35f)
                 {
                    
                     map[x, y] = 1; //GROUND
+                    float random = Random.Range(0.0f, 1.0f); //int = tam sayı ,long = 64 bit int, float = rasyonel , double = rasyonel
+                   
+                    if (random <= 0.2f)
+                    {
+                        map[x, y] = 4;
+                    }
+               
                 }
-                else if(sample > sealevel + 0.3f)
+                else if(sample > sealevel + 0.35f)
                 {
-                    map[x, y] = 2;
+                    map[x, y] = 2; //MOUNTAINS
                 }
+           
                 else
                 {
                     map[x, y] = 0;//SEA
@@ -116,7 +127,8 @@ public class GridController : MonoBehaviour
         {
             for (int y = 0; y < map.GetUpperBound(1); y++)
             {
-                if (x - 1 >= 0 && y-1 >= 0 && map[x,y] != 0)
+                //&& x != map.GetUpperBound(0)-1 && y != map.GetUpperBound(1)-1
+                if (x - 1 >= 0 && y-1 >= 0 && map[x,y] != 0 )
                 {
                     if (map[x + 1, y] == 0)
                     {
@@ -124,9 +136,7 @@ public class GridController : MonoBehaviour
                     }
                     else if (map[x - 1, y] == 0)
                     {
-                        //SAND
                         map[x , y] = 3;
-
                     }
                     else if (map[x, y + 1] == 0)
                     {
@@ -134,9 +144,23 @@ public class GridController : MonoBehaviour
                     }
                     else if (map[x, y - 1] == 0)
                     {
-
                         map[x, y ] = 3;
-
+                    }
+                    else if (map[x + 1, y + 1] == 0)
+                    {
+                        map[x, y] = 3;
+                    }
+                    else if (map[x +1 , y - 1] == 0)
+                    {
+                        map[x, y] = 3;
+                    }
+                    else if (map[x -1 , y - 1] == 0)
+                    {
+                        map[x, y] = 3;
+                    }
+                    else if (map[x - 1, y + 1] == 0)
+                    {
+                        map[x, y] = 3;
                     }
                 }
             }
@@ -174,6 +198,11 @@ public class GridController : MonoBehaviour
                 {
                    
                     ground.SetTile(new Vector3Int(x, y, 0), (Tile)Tileset.GetValue(4));
+                }
+                else if (map[x, y] == 4)
+                {
+                    mountains.SetTile(new Vector3Int(x, y, 0), (Tile)Tileset.GetValue(5));
+                    ground.SetTile(new Vector3Int(x, y, 0), (Tile)Tileset.GetValue(0));
                 }
                 else
                 {
