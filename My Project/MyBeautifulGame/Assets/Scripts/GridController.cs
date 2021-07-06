@@ -124,7 +124,7 @@ public class GridController : MonoBehaviour
                     }
                     else if (map[x - 1, y] == 0)
                     {
-
+                        //SAND
                         map[x , y] = 3;
 
                     }
