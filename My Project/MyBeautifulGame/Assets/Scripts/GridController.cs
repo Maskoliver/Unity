@@ -11,6 +11,7 @@ public class GridController : MonoBehaviour
     [SerializeField] private Tilemap[] Mapset = null;
     [SerializeField] private Tile[] Tileset = null;
     [SerializeField] private AnimatedTile flowers = null;
+    [SerializeField] private AnimatedTile rocks = null;
 
     private bool isStart = true;
 
@@ -51,7 +52,7 @@ public class GridController : MonoBehaviour
             isStart = false;
         }
         tileArray = addSand(tileArray);
-        RenderMap(tileArray, Mapset, Tileset,flowers);
+        RenderMap(tileArray, Mapset, Tileset,flowers,rocks);
     }
 
     public void clearMap()
@@ -121,13 +122,17 @@ public class GridController : MonoBehaviour
                 {
                    
                     map[x, y] = 1; //GROUND
-                    float random = Random.Range(0.0f, 1.0f); //int = tam sayı ,long = 64 bit int, float = rasyonel , double = rasyonel
+                    float random = Random.Range(0.0f, 1.0f); 
                    
                     if (random <= 0.2f)
                     {
-                        map[x, y] = 4;
+                        map[x, y] = 4; //FLOWERS
                     }
-               
+                    else if (random >= 0.27f && random <= 0.3f)
+                    {
+                        map[x, y] = 5; //ROCKS
+                    }
+
                 }
                 else if(sample > sealevel + 0.35f)
                 {
@@ -194,7 +199,7 @@ public class GridController : MonoBehaviour
     }
   
 
-    public static void RenderMap(int[,] map, Tilemap[] Mapset,Tile[] Tileset,AnimatedTile flower)
+    public static void RenderMap(int[,] map, Tilemap[] Mapset,Tile[] Tileset,AnimatedTile flower,AnimatedTile rock)
     {
         //Clear the map (ensures we dont overlap)
         Tilemap sea = (Tilemap)Mapset.GetValue(1);
@@ -227,6 +232,11 @@ public class GridController : MonoBehaviour
                 else if (map[x, y] == 4)
                 {
                     mountains.SetTile(new Vector3Int(x, y, 0), flower);
+                    ground.SetTile(new Vector3Int(x, y, 0), (Tile)Tileset.GetValue(0));
+                }
+                else if (map[x, y] == 5)
+                {
+                    mountains.SetTile(new Vector3Int(x, y, 0), rock);
                     ground.SetTile(new Vector3Int(x, y, 0), (Tile)Tileset.GetValue(0));
                 }
                 else
