@@ -40,6 +40,12 @@ public class GridController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        widthField.text = mapWidth.ToString();
+        heightField.text = mapHeight.ToString();
+        seedField.text = seed.ToString();
+        scaleField.text = scale.ToString();
+        sealevelField.text = sealevel.ToString();
+
         pf = this.GetComponent<PathFinder>();
         grid = gameObject.GetComponent<Grid>();
 
@@ -51,7 +57,13 @@ public class GridController : MonoBehaviour
     {
         if (!isStart)
         {
-            Debug.Log(int.Parse(widthField.text));
+
+            mapWidth = int.Parse(widthField.text);
+            mapHeight = int.Parse(heightField.text);
+            seed = int.Parse(seedField.text);
+            scale = float.Parse(scaleField.text);
+            sealevel = float.Parse(sealevelField.text);
+
             tileArray = GenerateArray(int.Parse(widthField.text) , int.Parse(heightField.text), int.Parse(seedField.text), float.Parse(scaleField.text), float.Parse(sealevelField.text));
         }
         else { 

@@ -34,6 +34,7 @@ public class PathFinder : MonoBehaviour
 
     public void createNodeMap()
     {
+        Debug.Log(gc.mapWidth + "," + gc.mapHeight);
         nodes = new PathNode[gc.mapWidth, gc.mapHeight];
         for (int x = 0; x < tileArray.GetLength(0); x++)
         {
