@@ -42,7 +42,7 @@ public class PathFinder : MonoBehaviour
                 
                 if (tileArray[x, y] == 0)
                 {
-                    nodes[x, y] = new PathNode(x, y, 10000.0f);
+                    nodes[x, y] = new PathNode(x, y, 0.0f);
                 }
                 else if (tileArray[x, y] == 1)
                 {
@@ -50,7 +50,7 @@ public class PathFinder : MonoBehaviour
                 }
                 else if (tileArray[x, y] == 2)
                 {
-                    nodes[x, y] = new PathNode(x, y, 10000.0f);
+                    nodes[x, y] = new PathNode(x, y, 0.0f);
                 }
                 else if (tileArray[x, y] == 3)
                 {
@@ -126,7 +126,7 @@ public class PathFinder : MonoBehaviour
 
             foreach (PathNode neighbour in GetNeighbours(currentNode))
             {
-                if (closedSet.Contains(neighbour))
+                if (closedSet.Contains(neighbour) || neighbour.costMult == 0.0f)
                 {
                     continue;
                 }
@@ -138,7 +138,7 @@ public class PathFinder : MonoBehaviour
                     neighbour.hCost = GetDistance(neighbour, targetNode);
                     neighbour.parent = currentNode;
 
-                    if (!openSet.Contains(neighbour))
+                    if (!openSet.Contains(neighbour) )
                         openSet.Add(neighbour);
                 }
             }

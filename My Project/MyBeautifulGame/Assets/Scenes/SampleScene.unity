@@ -1701,8 +1701,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bb49e7d3d9ae4da47bfc7c726d64e147, type: 2}
   flowers: {fileID: 11400000, guid: 99439f31f17e60e4ca2ca016b162ce68, type: 2}
   rocks: {fileID: 11400000, guid: ff881be291762b942b6eb986d98f6309, type: 2}
-  mapWidth: 70
-  mapHeight: 70
+  mapWidth: 30
+  mapHeight: 30
   seed: 104
   scale: 15
   sealevel: 0.28
@@ -2219,7 +2219,7 @@ Tilemap:
       - {fileID: 3525326774834034233, guid: 3a2c4735236de494d8bf93aa3207e5fe, type: 3}
       - {fileID: 3658328705032491969, guid: 3a2c4735236de494d8bf93aa3207e5fe, type: 3}
       - {fileID: 4220147774099219547, guid: 3a2c4735236de494d8bf93aa3207e5fe, type: 3}
-      m_AnimationSpeed: 6.185276
+      m_AnimationSpeed: 5.613962
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   m_TileAssetArray:
