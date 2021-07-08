@@ -34,6 +34,9 @@ public class GridController : MonoBehaviour
 
     private Vector3Int previousMousePos = new Vector3Int();
 
+
+    private Vector2 startPosition = new Vector2(1, 1);
+
     // Start is called before the first frame update
     void Start()
     {
@@ -41,7 +44,6 @@ public class GridController : MonoBehaviour
         grid = gameObject.GetComponent<Grid>();
 
         GenerateMap();
-        
 
     }
 
@@ -58,6 +60,7 @@ public class GridController : MonoBehaviour
         }
         tileArray = addSand(tileArray);
         RenderMap(tileArray, Mapset, Tileset,flowers,rocks);
+        pf.setTileArray(tileArray);
         pf.prepareNodes();
     }
 
@@ -90,7 +93,7 @@ public class GridController : MonoBehaviour
             //Debug.Log("Created tile at : " + mousePos);
             //pathmap.SetTile(new Vector3Int(mousePos.x,mousePos.y,0), (Tile)Tileset.GetValue(0));
             
-            debugPath = pf.FindPath(pf.nodes, new PathNode(1, 1), pf.nodes[mousePos.x, mousePos.y]);
+            debugPath = pf.FindPath(pf.nodes, new PathNode((int)startPosition.x, (int)startPosition.y), pf.nodes[mousePos.x, mousePos.y]);
             //pf.printNodes(debugPath);
             makeDebugPath(debugPath);
         }
@@ -99,6 +102,11 @@ public class GridController : MonoBehaviour
         if (Input.GetMouseButton(1))
         {
             Tilemap pathmap = (Tilemap)Mapset.GetValue(0);
+            Tilemap debugmap = (Tilemap)Mapset.GetValue(4);
+            debugmap.SetTile(new Vector3Int((int)startPosition.x, (int)startPosition.y, 0),null);
+            startPosition.x = mousePos.x;
+            startPosition.y = mousePos.y;
+            debugmap.SetTile(new Vector3Int(mousePos.x, mousePos.y, 0), (Tile)Tileset.GetValue(3));
             //Debug.Log("Deleted tile");
             //pathmap.SetTile(new Vector3Int(mousePos.x, mousePos.y, 0), null);
         }
@@ -129,9 +137,9 @@ public class GridController : MonoBehaviour
         float yCoord = 0;
         int[,] map = new int[width, height];
       
-        for (int x = 0; x < map.GetUpperBound(0); x++)
+        for (int x = 0; x < map.GetLength(0); x++)
         {
-            for (int y = 0; y < map.GetUpperBound(1); y++)
+            for (int y = 0; y < map.GetLength(1); y++)
             {
                 xCoord = seed + x / scale;
                 yCoord = seed + y / scale;
@@ -174,9 +182,9 @@ public class GridController : MonoBehaviour
 
     public static int[,] addSand(int[,] map)
     {
-        for (int x = 0; x < map.GetUpperBound(0); x++)
+        for (int x = 0; x < map.GetLength(0)-1; x++)
         {
-            for (int y = 0; y < map.GetUpperBound(1); y++)
+            for (int y = 0; y < map.GetLength(1)-1; y++)
             {
                 //&& x != map.GetUpperBound(0)-1 && y != map.GetUpperBound(1)-1
                 if (x - 1 >= 0 && y-1 >= 0 && map[x,y] != 0 )
@@ -230,10 +238,10 @@ public class GridController : MonoBehaviour
         sea.ClearAllTiles();
         mountains.ClearAllTiles();
         //Loop through the width of the map
-        for (int x = 0; x < map.GetUpperBound(0); x++)
+        for (int x = 0; x < map.GetLength(0); x++)
         {
             //Loop through the height of the map
-            for (int y = 0; y < map.GetUpperBound(1); y++)
+            for (int y = 0; y < map.GetLength(1); y++)
             {
              
                 if (map[x, y] == 1)

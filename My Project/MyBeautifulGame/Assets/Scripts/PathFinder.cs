@@ -6,45 +6,43 @@ public class PathFinder : MonoBehaviour
 {
     public PathNode[,] nodes = null;
     public int[,] tileArray = null;
-    private GridController gc = null;
+    public GridController gc = null;
 
-    public void Start()
-    {
-        gc = gameObject.GetComponent<GridController>();
-        nodes = new PathNode[gc.mapWidth, gc.mapHeight];
-    }
-    private void Update()
-    {
-       
-    }
+
 
     public void prepareNodes()
     {
-        this.tileArray = gc.tileArray;
         createNodeMap();
         //print();
     }
 
     public void print()
     {
-        for (int x = 0; x < tileArray.GetUpperBound(0); x++)
+        for (int x = 0; x < tileArray.GetLength(0); x++)
         {
-            for (int y = 0; y < tileArray.GetUpperBound(1); y++)
+            for (int y = 0; y < tileArray.GetLength(1); y++)
             {
                 Debug.Log(nodes[x, y].xCor + "," + nodes[x, y].yCor + "," + nodes[x, y].costMult);
             }
         }
     }
 
+    public void setTileArray(int[,] ta)
+    {
+        tileArray = ta;
+    }
+
     public void createNodeMap()
     {
-        for (int x = 0; x < tileArray.GetUpperBound(0); x++)
+        nodes = new PathNode[gc.mapWidth, gc.mapHeight];
+        for (int x = 0; x < tileArray.GetLength(0); x++)
         {
-            for (int y = 0; y < tileArray.GetUpperBound(1); y++)
+            for (int y = 0; y < tileArray.GetLength(1); y++)
             {
+                
                 if (tileArray[x, y] == 0)
                 {
-                    nodes[x, y] = new PathNode(x, y, 1000.0f);
+                    nodes[x, y] = new PathNode(x, y, 10000.0f);
                 }
                 else if (tileArray[x, y] == 1)
                 {
@@ -52,11 +50,11 @@ public class PathFinder : MonoBehaviour
                 }
                 else if (tileArray[x, y] == 2)
                 {
-                    nodes[x, y] = new PathNode(x, y, 1000.0f);
+                    nodes[x, y] = new PathNode(x, y, 10000.0f);
                 }
                 else if (tileArray[x, y] == 3)
                 {
-                    nodes[x, y] = new PathNode(x, y, 1.5f);
+                    nodes[x, y] = new PathNode(x, y, 1.3f);
                 }
                 else if (tileArray[x, y] == 4)
                 {
@@ -64,7 +62,7 @@ public class PathFinder : MonoBehaviour
                 }
                 else if (tileArray[x, y] == 5)
                 {
-                    nodes[x, y] = new PathNode(x, y, 1.2f);
+                    nodes[x, y] = new PathNode(x, y);
                 }
                 else
                 {
@@ -163,6 +161,10 @@ public class PathFinder : MonoBehaviour
     }
     private static int GetDistance(PathNode nodeA, PathNode nodeB)
     {
+        if(nodeB == null)
+        {
+            Debug.Log("Here");
+        }
         int dstX = Mathf.Abs(nodeA.xCor - nodeB.xCor);
         int dstY = Mathf.Abs(nodeA.yCor - nodeB.yCor);
 

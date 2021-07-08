@@ -1723,6 +1723,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b682d23b5b343fb4d9bd04830e6247ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gc: {fileID: 666850954}
 --- !u!1 &720594120
 GameObject:
   m_ObjectHideFlags: 0
@@ -2218,7 +2219,7 @@ Tilemap:
       - {fileID: 3525326774834034233, guid: 3a2c4735236de494d8bf93aa3207e5fe, type: 3}
       - {fileID: 3658328705032491969, guid: 3a2c4735236de494d8bf93aa3207e5fe, type: 3}
       - {fileID: 4220147774099219547, guid: 3a2c4735236de494d8bf93aa3207e5fe, type: 3}
-      m_AnimationSpeed: 5.4552507
+      m_AnimationSpeed: 6.185276
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   m_TileAssetArray:
