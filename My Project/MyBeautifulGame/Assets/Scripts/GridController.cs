@@ -27,16 +27,21 @@ public class GridController : MonoBehaviour
     public InputField scaleField = null;
     public InputField sealevelField = null;
 
-    private int[,] tileArray = null;
+    private List<PathNode> debugPath = null;
+
+    public int[,] tileArray = null;
+    private PathFinder pf = null;
 
     private Vector3Int previousMousePos = new Vector3Int();
 
     // Start is called before the first frame update
     void Start()
     {
-       
+        pf = this.GetComponent<PathFinder>();
         grid = gameObject.GetComponent<Grid>();
+
         GenerateMap();
+        
 
     }
 
@@ -53,6 +58,7 @@ public class GridController : MonoBehaviour
         }
         tileArray = addSand(tileArray);
         RenderMap(tileArray, Mapset, Tileset,flowers,rocks);
+        pf.prepareNodes();
     }
 
     public void clearMap()
@@ -81,16 +87,31 @@ public class GridController : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             Tilemap pathmap = (Tilemap)Mapset.GetValue(0);
-            Debug.Log("Created tile at : " + mousePos);
-            pathmap.SetTile(new Vector3Int(mousePos.x,mousePos.y,0), (Tile)Tileset.GetValue(0));
+            //Debug.Log("Created tile at : " + mousePos);
+            //pathmap.SetTile(new Vector3Int(mousePos.x,mousePos.y,0), (Tile)Tileset.GetValue(0));
+            
+            debugPath = pf.FindPath(pf.nodes, new PathNode(1, 1), pf.nodes[mousePos.x, mousePos.y]);
+            //pf.printNodes(debugPath);
+            makeDebugPath(debugPath);
         }
 
         // Right mouse click -> remove path tile
         if (Input.GetMouseButton(1))
         {
             Tilemap pathmap = (Tilemap)Mapset.GetValue(0);
-            Debug.Log("Deleted tile");
-            pathmap.SetTile(new Vector3Int(mousePos.x, mousePos.y, 0), null);
+            //Debug.Log("Deleted tile");
+            //pathmap.SetTile(new Vector3Int(mousePos.x, mousePos.y, 0), null);
+        }
+    }
+
+    private void makeDebugPath(List<PathNode> debugpath)
+    {
+        
+        Tilemap debugmap = (Tilemap)Mapset.GetValue(4); //Debug map
+        debugmap.ClearAllTiles();
+        foreach (PathNode node in debugPath)
+        {
+            debugmap.SetTile(new Vector3Int(node.xCor, node.yCor, 0), (Tile)Tileset.GetValue(6));
         }
     }
 
