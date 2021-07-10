@@ -55,7 +55,7 @@ public class PathFinder : MonoBehaviour
                 }
                 else if (tileArray[x, y] == 3)
                 {
-                    nodes[x, y] = new PathNode(x, y, 1.3f);
+                    nodes[x, y] = new PathNode(x, y, 1.5f);
                 }
                 else if (tileArray[x, y] == 4)
                 {

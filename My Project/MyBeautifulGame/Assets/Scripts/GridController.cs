@@ -86,6 +86,8 @@ public class GridController : MonoBehaviour
         mountains.ClearAllTiles();
     }
 
+
+
     void Update()
     {
         // Mouse over -> highlight tile
@@ -102,12 +104,19 @@ public class GridController : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             Tilemap pathmap = (Tilemap)Mapset.GetValue(0);
-            //Debug.Log("Created tile at : " + mousePos);
-            //pathmap.SetTile(new Vector3Int(mousePos.x,mousePos.y,0), (Tile)Tileset.GetValue(0));
             
             debugPath = pf.FindPath(pf.nodes, new PathNode((int)startPosition.x, (int)startPosition.y), pf.nodes[mousePos.x, mousePos.y]);
-            //pf.printNodes(debugPath);
             makeDebugPath(debugPath);
+
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            PathNode[] dest = debugPath.ToArray();
+            
+                PathNode destinationNode = dest[dest.Length-1];
+                Vector3 a = pathmap.CellToWorld(new Vector3Int(destinationNode.xCor, destinationNode.yCor, 0)) + new Vector3(0, 0.75f, 0);
+                player.transform.position = Vector3.MoveTowards(player.transform.position, a, 100.0f * Time.deltaTime);
+            
+
+
         }
 
         // Right mouse click -> remove path tile
@@ -119,8 +128,11 @@ public class GridController : MonoBehaviour
             startPosition.x = mousePos.x;
             startPosition.y = mousePos.y;
             debugmap.SetTile(new Vector3Int(mousePos.x, mousePos.y, 0), (Tile)Tileset.GetValue(3));
-            //Debug.Log("Deleted tile");
-            //pathmap.SetTile(new Vector3Int(mousePos.x, mousePos.y, 0), null);
+
+
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            player.transform.position = pathmap.CellToWorld(new Vector3Int(mousePos.x, mousePos.y, 0))+new Vector3(0,0.75f,0);
+         
         }
     }
 
