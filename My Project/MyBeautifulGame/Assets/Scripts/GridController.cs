@@ -7,11 +7,7 @@ using UnityEngine.UI;
 public class GridController : MonoBehaviour
 {
     private Grid grid;
-
-    [SerializeField] private Tilemap[] Mapset = null;
-    [SerializeField] private Tile[] Tileset = null;
-    [SerializeField] private AnimatedTile flowers = null;
-    [SerializeField] private AnimatedTile rocks = null;
+    [SerializeField] private TileManager tm = null;
 
     private bool isStart = true;
 
@@ -35,7 +31,7 @@ public class GridController : MonoBehaviour
     private Vector3Int previousMousePos = new Vector3Int();
 
 
-    private Vector2 startPosition = new Vector2(1, 1);
+    private Vector2 startPosition = new Vector2(0, 0);
 
     // Start is called before the first frame update
     void Start()
@@ -71,16 +67,16 @@ public class GridController : MonoBehaviour
             isStart = false;
         }
         tileArray = addSand(tileArray);
-        RenderMap(tileArray, Mapset, Tileset,flowers,rocks);
+        RenderMap(tileArray);
         pf.setTileArray(tileArray);
         pf.prepareNodes();
     }
 
     public void clearMap()
     {
-        Tilemap sea = (Tilemap)Mapset.GetValue(1);
-        Tilemap ground = (Tilemap)Mapset.GetValue(0);
-        Tilemap mountains = (Tilemap)Mapset.GetValue(2);
+        Tilemap sea = tm.Sea_Map;
+        Tilemap ground = tm.Ground_Map;
+        Tilemap mountains = tm.Collision_Map;
         ground.ClearAllTiles();
         sea.ClearAllTiles();
         mountains.ClearAllTiles();
@@ -94,16 +90,16 @@ public class GridController : MonoBehaviour
         Vector3Int mousePos = GetMousePosition();
         if (!mousePos.Equals(previousMousePos))
         {
-            Tilemap interactive = (Tilemap)Mapset.GetValue(3);          
+            Tilemap interactive = tm.Interactables_Map;          
             interactive.SetTile(new Vector3Int(previousMousePos.x, previousMousePos.y, 0), null); // Remove old hoverTile
-            interactive.SetTile(new Vector3Int(mousePos.x, mousePos.y, 0), (Tile)Tileset.GetValue(3));
+            interactive.SetTile(new Vector3Int(mousePos.x, mousePos.y, 0), tm.HighLight);
             previousMousePos = mousePos;
         }
 
-        //Left mouse click->add path tile
+   
         if (Input.GetMouseButton(0))
         {
-            Tilemap pathmap = (Tilemap)Mapset.GetValue(0);
+            Tilemap pathmap = tm.Ground_Map;
             
             debugPath = pf.FindPath(pf.nodes, new PathNode((int)startPosition.x, (int)startPosition.y), pf.nodes[mousePos.x, mousePos.y]);
             makeDebugPath(debugPath);
@@ -122,12 +118,12 @@ public class GridController : MonoBehaviour
         // Right mouse click -> remove path tile
         if (Input.GetMouseButton(1))
         {
-            Tilemap pathmap = (Tilemap)Mapset.GetValue(0);
-            Tilemap debugmap = (Tilemap)Mapset.GetValue(4);
+            Tilemap pathmap = tm.Ground_Map;
+            Tilemap debugmap = tm.Debug_Map;
             debugmap.SetTile(new Vector3Int((int)startPosition.x, (int)startPosition.y, 0),null);
             startPosition.x = mousePos.x;
             startPosition.y = mousePos.y;
-            debugmap.SetTile(new Vector3Int(mousePos.x, mousePos.y, 0), (Tile)Tileset.GetValue(3));
+            debugmap.SetTile(new Vector3Int(mousePos.x, mousePos.y, 0), tm.HighLight);
 
 
             GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -139,11 +135,11 @@ public class GridController : MonoBehaviour
     private void makeDebugPath(List<PathNode> debugpath)
     {
         
-        Tilemap debugmap = (Tilemap)Mapset.GetValue(4); //Debug map
+        Tilemap debugmap = tm.Debug_Map; //Debug map
         debugmap.ClearAllTiles();
         foreach (PathNode node in debugPath)
         {
-            debugmap.SetTile(new Vector3Int(node.xCor, node.yCor, 0), (Tile)Tileset.GetValue(6));
+            debugmap.SetTile(new Vector3Int(node.xCor, node.yCor, 0), tm.Debug_Road);
         }
     }
 
@@ -252,12 +248,13 @@ public class GridController : MonoBehaviour
     }
   
 
-    public static void RenderMap(int[,] map, Tilemap[] Mapset,Tile[] Tileset,AnimatedTile flower,AnimatedTile rock)
+    public static void RenderMap(int[,] map)
     {
+        TileManager tm = GameObject.FindGameObjectWithTag("GameController").GetComponent<TileManager>();
         //Clear the map (ensures we dont overlap)
-        Tilemap sea = (Tilemap)Mapset.GetValue(1);
-        Tilemap ground = (Tilemap)Mapset.GetValue(0);
-        Tilemap mountains = (Tilemap)Mapset.GetValue(2);
+        Tilemap sea = tm.Sea_Map;
+        Tilemap ground = tm.Ground_Map;
+        Tilemap mountains = tm.Collision_Map;
         ground.ClearAllTiles();
         sea.ClearAllTiles();
         mountains.ClearAllTiles();
@@ -270,31 +267,31 @@ public class GridController : MonoBehaviour
              
                 if (map[x, y] == 1)
                 {
-                    ground.SetTile(new Vector3Int(x, y, 0), (Tile)Tileset.GetValue(0));
+                    ground.SetTile(new Vector3Int(x, y, 0), tm.Grass_Base);
                 }
                 else if(map[x,y] == 2)
                 {
-                    mountains.SetTile(new Vector3Int(x, y, 0), (Tile)Tileset.GetValue(2));
-                    ground.SetTile(new Vector3Int(x, y, 0), (Tile)Tileset.GetValue(0));
+                    mountains.SetTile(new Vector3Int(x, y, 0), tm.Mountain_1);
+                    ground.SetTile(new Vector3Int(x, y, 0), tm.Grass_Base);
                 }
                 else if (map[x, y] == 3)
                 {
                    
-                    ground.SetTile(new Vector3Int(x, y, 0), (Tile)Tileset.GetValue(4));
+                    ground.SetTile(new Vector3Int(x, y, 0), tm.Sand_Base);
                 }
                 else if (map[x, y] == 4)
                 {
-                    mountains.SetTile(new Vector3Int(x, y, 0), flower);
-                    ground.SetTile(new Vector3Int(x, y, 0), (Tile)Tileset.GetValue(0));
+                    mountains.SetTile(new Vector3Int(x, y, 0), tm.Grass_Flowers);
+                    ground.SetTile(new Vector3Int(x, y, 0), tm.Grass_Base);
                 }
                 else if (map[x, y] == 5)
                 {
-                    mountains.SetTile(new Vector3Int(x, y, 0), rock);
-                    ground.SetTile(new Vector3Int(x, y, 0), (Tile)Tileset.GetValue(0));
+                    mountains.SetTile(new Vector3Int(x, y, 0), tm.Grass_Rock);
+                    ground.SetTile(new Vector3Int(x, y, 0), tm.Grass_Base);
                 }
                 else
                 {
-                    sea.SetTile(new Vector3Int(x, y, 0), (Tile)Tileset.GetValue(1));
+                    sea.SetTile(new Vector3Int(x, y, 0), tm.Water_Base);
                 }
             }
         }
