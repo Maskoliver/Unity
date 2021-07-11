@@ -101,16 +101,22 @@ public class GridController : MonoBehaviour
         {
             Tilemap pathmap = tm.Ground_Map;
             
-            debugPath = pf.FindPath(pf.nodes, new PathNode((int)startPosition.x, (int)startPosition.y), pf.nodes[mousePos.x, mousePos.y]);
-            makeDebugPath(debugPath);
+            string startPos = (int)startPosition.x + "," + (int)startPosition.y;
+            string endPos = mousePos.x + "," + mousePos.y;
 
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            PathNode[] dest = debugPath.ToArray();
-            
-                PathNode destinationNode = dest[dest.Length-1];
-                Vector3 a = pathmap.CellToWorld(new Vector3Int(destinationNode.xCor, destinationNode.yCor, 0)) + new Vector3(0, 0.75f, 0);
-                player.transform.position = Vector3.MoveTowards(player.transform.position, a, 100.0f * Time.deltaTime);
-            
+            if (startPos != endPos) {
+
+                debugPath = pf.FindPath(pf.nodes, new PathNode((int)startPosition.x, (int)startPosition.y), pf.nodes[mousePos.x, mousePos.y]);
+                makeDebugPath(debugPath);
+                
+                GameObject player = GameObject.FindGameObjectWithTag("Player");
+                player.transform.position = pathmap.CellToWorld(new Vector3Int((int)startPosition.x, (int)startPosition.y, 0)) + new Vector3(0, 0.75f, 0);
+                PathNode[] dest = debugPath.ToArray();
+                CharacterMovement cc = player.GetComponent<CharacterMovement>();
+                Debug.Log("mousePos : " + mousePos);
+                cc.setPath(dest);
+               
+            }
 
 
         }
@@ -125,10 +131,11 @@ public class GridController : MonoBehaviour
             startPosition.y = mousePos.y;
             debugmap.SetTile(new Vector3Int(mousePos.x, mousePos.y, 0), tm.HighLight);
 
-
+            
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             player.transform.position = pathmap.CellToWorld(new Vector3Int(mousePos.x, mousePos.y, 0))+new Vector3(0,0.75f,0);
-         
+            CharacterMovement cc = player.GetComponent<CharacterMovement>();
+            cc.setPath(null);
         }
     }
 

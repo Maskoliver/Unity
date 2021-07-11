@@ -85,7 +85,7 @@ public class PathFinder : MonoBehaviour
         {
             foreach (PathNode node in nodes_path)
             {
-                ret.Add(new PathNode(node.xCor, node.yCor));
+                ret.Add(new PathNode(node.xCor, node.yCor,node.costMult));
             }
         }
         return ret;
