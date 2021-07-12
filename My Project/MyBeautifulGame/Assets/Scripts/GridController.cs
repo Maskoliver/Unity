@@ -17,11 +17,6 @@ public class GridController : MonoBehaviour
     public float scale = 10.0f;
     public float sealevel = 0.5f;
 
-    public InputField widthField = null;
-    public InputField heightField = null;
-    public InputField seedField = null;
-    public InputField scaleField = null;
-    public InputField sealevelField = null;
 
     private List<PathNode> debugPath = null;
 
@@ -36,11 +31,7 @@ public class GridController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        widthField.text = mapWidth.ToString();
-        heightField.text = mapHeight.ToString();
-        seedField.text = seed.ToString();
-        scaleField.text = scale.ToString();
-        sealevelField.text = sealevel.ToString();
+
 
         pf = this.GetComponent<PathFinder>();
         grid = gameObject.GetComponent<Grid>();
@@ -53,14 +44,16 @@ public class GridController : MonoBehaviour
     {
         if (!isStart)
         {
+            MapGenerationTool mgt = gameObject.GetComponent<MapGenerationTool>();
+            if(mgt != null ) { 
+            mapWidth = int.Parse(mgt.widthField.text);
+            mapHeight = int.Parse(mgt.heightField.text);
+            seed = int.Parse(mgt.seedField.text);
+            scale = float.Parse(mgt.scaleField.text);
+            sealevel = float.Parse(mgt.sealevelField.text);
 
-            mapWidth = int.Parse(widthField.text);
-            mapHeight = int.Parse(heightField.text);
-            seed = int.Parse(seedField.text);
-            scale = float.Parse(scaleField.text);
-            sealevel = float.Parse(sealevelField.text);
-
-            tileArray = GenerateArray(int.Parse(widthField.text) , int.Parse(heightField.text), int.Parse(seedField.text), float.Parse(scaleField.text), float.Parse(sealevelField.text));
+            tileArray = GenerateArray(int.Parse(mgt.widthField.text) , int.Parse(mgt.heightField.text), int.Parse(mgt.seedField.text), float.Parse(mgt.scaleField.text), float.Parse(mgt.sealevelField.text));
+            }
         }
         else { 
             tileArray = GenerateArray(mapWidth, mapHeight, seed, scale, sealevel);

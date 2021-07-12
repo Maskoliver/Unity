@@ -6,14 +6,16 @@ public class PathFinder : MonoBehaviour
 {
     public PathNode[,] nodes = null;
     public int[,] tileArray = null;
-    public GridController gc = null;
+    private GridController gc = null;
 
 
-
+    private void Awake()
+    {
+        gc = GameObject.FindGameObjectWithTag("Grid").GetComponent<GridController>();
+    }
     public void prepareNodes()
     {
         createNodeMap();
-        //print();
     }
 
     public void print()

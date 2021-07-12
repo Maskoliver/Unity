@@ -5,13 +5,15 @@ using UnityEngine;
 public class GameHandler : MonoBehaviour
 {
     [SerializeField] private CameraController cameraFollow;
+    [SerializeField] private GameObject playerPrefab;
     private Vector3 cameraFollowPosition;
     private float zoom = 4f;
-   
+    
+
     void Start()
     {
         cameraFollow.Setup(() => cameraFollowPosition, () => zoom);
-      
+        Instantiate(playerPrefab, new Vector3(0, 0.75f, 0), Quaternion.identity);
     }
 
    

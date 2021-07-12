@@ -6,13 +6,17 @@ public class CharacterMovement : MonoBehaviour
 {
     public int movementPoints = 100;
     public PathNode[] path;
-    public Tilemap pathmap;
+    private Tilemap pathmap;
     [SerializeField]private float speed = 5f;
     private int pathIndex = 0;
 
     private Vector3 endPos = new Vector3(0,0);
 
-
+    private void Start()
+    {
+        TileManager tm = GameObject.FindGameObjectWithTag("GameController").GetComponent<TileManager>();
+        pathmap = tm.Ground_Map;
+    }
     public bool Move()
     {
         if(path != null) {
@@ -55,7 +59,7 @@ public class CharacterMovement : MonoBehaviour
         bool isFinished = Move();
         if (isFinished)
         {
-            Debug.Log("here");
+       
             GridController gc = GameObject.FindGameObjectWithTag("Grid").GetComponent<GridController>();
             gc.setStartPos((int)endPos.x, (int)endPos.y);
             Vector3 targetOnTilemap = pathmap.CellToWorld(new Vector3Int((int)endPos.x, (int)endPos.y, 0)) + new Vector3(0, 0.75f, 0);
