@@ -121,7 +121,6 @@ public class GridController : MonoBehaviour
 
         }
 
-        // Right mouse click -> remove path tile
         if (Input.GetMouseButton(1))
         {
             Tilemap pathmap = tm.Ground_Map;
@@ -137,6 +136,12 @@ public class GridController : MonoBehaviour
             CharacterMovement cc = player.GetComponent<CharacterMovement>();
             cc.setPath(null);
         }
+    }
+
+    public void setStartPos(int x , int y)
+    {
+        startPosition.x = x;
+        startPosition.y = y;
     }
 
     private void makeDebugPath(List<PathNode> debugpath)
