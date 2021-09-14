@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7639102004501822062}
   - component: {fileID: 7639102004501822057}
   - component: {fileID: 7639102004501822063}
+  - component: {fileID: 2502943393172934710}
   - component: {fileID: 7639102004501822056}
   m_Layer: 0
   m_Name: Player 1
@@ -105,7 +106,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &7639102004501822057
 BoxCollider2D:
@@ -124,7 +125,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 1.1428572, y: 1.1428572}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -148,6 +149,23 @@ MonoBehaviour:
   movementSpeed: 5
   animator: {fileID: 7639102004501822056}
   rb: {fileID: 7639102004501822062}
+--- !u!114 &2502943393172934710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7639102004501822059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e261edeeb0fe1ad418055e87c24e4001, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  damage:
+    baseValue: 10
+  armor:
+    baseValue: 0
 --- !u!95 &7639102004501822056
 Animator:
   serializedVersion: 3
