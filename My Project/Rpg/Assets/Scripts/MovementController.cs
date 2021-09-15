@@ -55,7 +55,9 @@ public class MovementController : MonoBehaviour
         animator.SetTrigger("Attack");
         foreach(Collider2D enemy in hitEnemies)
         {
+           
             Debug.Log("We hit " + enemy.name);
+        
         }
         
     }

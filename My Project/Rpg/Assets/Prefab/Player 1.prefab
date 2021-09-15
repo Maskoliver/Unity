@@ -12,12 +12,12 @@ GameObject:
   - component: {fileID: 7639102004501822060}
   - component: {fileID: 7639102004501822062}
   - component: {fileID: 7639102004501822057}
+  - component: {fileID: 1128803118499131002}
   - component: {fileID: 7639102004501822063}
-  - component: {fileID: 2502943393172934710}
   - component: {fileID: 7639102004501822056}
   m_Layer: 0
   m_Name: Player 1
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 4367191224252515237, guid: 4a6dfb5c0b51cd04cab6f2d8dbc4df6c, type: 3}
+  m_Sprite: {fileID: 6164395428596610570, guid: e5e90d2b3109d6346af13713d21ead8e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -121,19 +121,43 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.00091457367, y: -0.17792858}
+  m_Offset: {x: -0.0066343546, y: -0.040654883}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.1428572, y: 1.1428572}
+    oldSize: {x: 2, y: 2}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.21773744, y: 0.016869336}
+  m_Size: {x: 0.17197967, y: 0.17702195}
   m_EdgeRadius: 0
+--- !u!114 &1128803118499131002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7639102004501822059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e261edeeb0fe1ad418055e87c24e4001, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  level: 1
+  maxHealth: 100
+  Armor:
+    baseValue: 2
+  Damage:
+    baseValue: 5
+  Str:
+    baseValue: 1
+  Agi:
+    baseValue: 1
+  Int:
+    baseValue: 1
 --- !u!114 &7639102004501822063
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,25 +171,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 5
+  attackRange: 0.5
+  attackPoint: {fileID: 0}
   animator: {fileID: 7639102004501822056}
   rb: {fileID: 7639102004501822062}
---- !u!114 &2502943393172934710
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7639102004501822059}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e261edeeb0fe1ad418055e87c24e4001, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 100
-  damage:
-    baseValue: 10
-  armor:
-    baseValue: 0
 --- !u!95 &7639102004501822056
 Animator:
   serializedVersion: 3
