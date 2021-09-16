@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class GameHandler : MonoBehaviour
 {
     [SerializeField] private CameraController cameraFollow;
+    [SerializeField] private Canvas InventoryCanvas;
     private float zoom = 5f;
-
+    
     void Start()
     {
         cameraFollow.Setup(() => zoom);
@@ -23,6 +24,11 @@ public class GameHandler : MonoBehaviour
         if (Input.GetAxis("Mouse ScrollWheel") > 0f)
         {
             ZoomIn();
+        }
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            Debug.Log(InventoryCanvas.enabled + " status of canvas");
+            InventoryCanvas.enabled = !InventoryCanvas.enabled;
         }
     }
 

@@ -24,8 +24,14 @@ public class ChestController : MonoBehaviour
         {
             isOpen = true;
             Debug.Log("Chest opened");
-            animator.SetBool("IsOpen", isOpen);
+            animator.SetBool("isOpen", isOpen);
         }
+    }
+    public void closeChest()
+    {
+        isOpen = false;
+        Debug.Log("Chest closed");
+        animator.SetBool("isOpen", isOpen);
     }
 
     public void setInteractable(bool state)

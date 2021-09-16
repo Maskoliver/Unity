@@ -25,8 +25,12 @@ public class Interactable : MonoBehaviour
             cc.setInteractable(true);
             if (Input.GetKeyDown(interactKey))
             {
+                cc.openChest();
                
-               
+            }
+            else if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                cc.closeChest();
             }
         }
         else
@@ -51,6 +55,7 @@ public class Interactable : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            cc.closeChest();
             Debug.Log("Player leaved range");
             isInRange = false;
         }
