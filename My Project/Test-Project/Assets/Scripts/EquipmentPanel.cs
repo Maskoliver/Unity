@@ -9,17 +9,20 @@ public class EquipmentPanel : MonoBehaviour
     [SerializeField] EquipmentSlot[] equipmentSlots;
     public event Action<Item> OnItemRightClickedEvent;
 
-    private void Awake()
+    private void Start()
     {
+
         for (int i = 0; i < equipmentSlots.Length; i++)
         {
             equipmentSlots[i].OnRightClickEvent += OnItemRightClickedEvent;
         }
     }
+
     private void OnValidate()
     {
         equipmentSlots = equipmentSlotsParent.GetComponentsInChildren<EquipmentSlot>();
     }
+
     public bool AddItem(EquipableItems item , out EquipableItems previousItem)
     {
         for(int i = 0; i < equipmentSlots.Length;i++)
